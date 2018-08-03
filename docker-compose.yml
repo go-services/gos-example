@@ -8,9 +8,9 @@ services:
       -  services/user/docker/.env
     volumes:
       # these are the folders we want to have updated in the container when they do on the project
-      - ./apis/user:/go/src/github.com/go-apis/gos-project/apis/user
-      - ./shared:/go/src/github.com/go-apis/gos-project/shared
-      - ./clients:/go/src/github.com/go-apis/gos-project/clients
+      - ./services/user:/go/src/github.com/go-services/gos-project/services/user
+      - ./shared:/go/src/github.com/go-services/gos-project/shared
+      - ./clients:/go/src/github.com/go-services/gos-project/clients
     depends_on:
       - db
   db:

@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	fmt.Println(config.Get().DBConnectionString)
 	for _, err := serviceDB.Connect(); err != nil; {
 		fmt.Println(fmt.Sprintf("Could not connect to the DB trying again in 10 sec: %v", err))
 		time.Sleep(10 * time.Second)

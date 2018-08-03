@@ -24,6 +24,6 @@ func NewBase() Base {
 }
 
 func (base) Index(ctx context.Context, username string) (greeting string, err error) {
-	greeting = "Hello " + strings.ToUpper(username)
+	greeting = "Hello  123" + strings.ToUpper(username)
 	return
 }

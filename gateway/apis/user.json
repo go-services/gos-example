@@ -1,17 +1,25 @@
 {
-  "name" : "User",
-  "active" : true,
-  "proxy" : {
-    "preserve_host" : false,
-    "listen_path" : "/user/*",
-    "upstreams" : {
+  "name": "User",
+  "active": true,
+  "proxy": {
+    "preserve_host": false,
+    "listen_path": "/user/*",
+    "upstreams": {
       "balancing": "roundrobin",
       "targets": [
-        {"target": "http://user:8081/"}
+        {
+          "target": "http://user:8081/"
+        }
       ]
     },
-    "strip_path" : true,
-    "append_path" : true,
-    "methods" : ["GET","PUT","POST","DELETE", "OPTIONS"]
+    "strip_path": true,
+    "append_path": true,
+    "methods": [
+      "GET",
+      "PUT",
+      "POST",
+      "DELETE",
+      "OPTIONS"
+    ]
   }
 }

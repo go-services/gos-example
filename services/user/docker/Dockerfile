@@ -14,5 +14,6 @@ RUN dep ensure
 # Install reflux to watch the app
 RUN go get github.com/cespare/reflex
 
-# watch the shared,clients and service folder
-ENTRYPOINT  go run services/user/cmd/migration/main.go && reflex -r '^(?:shared|clients|services/user)(\/[a-z_\-\s0-9\.]+)+\.go$'  -s -- sh -c 'go run services/user/cmd/service/main.go' -v
+RUN chmod +x /go/src/github.com/go-services/gos-project/services/user/docker/entrypoint.sh
+# Run entrypoint
+ENTRYPOINT  /go/src/github.com/go-services/gos-project/services/user/docker/entrypoint.sh
