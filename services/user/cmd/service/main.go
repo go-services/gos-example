@@ -1,38 +1,40 @@
 package main
 
 import (
-	"github.com/go-services/gos-project/services/user/gos_gen"
 	"github.com/go-services/gos-project/services/user/gos_gen/cmd"
 	"os"
 	"github.com/go-services/gos-project/services/user"
 	"github.com/go-kit/kit/log/level"
 	"fmt"
 	"github.com/go-kit/kit/log"
-	"github.com/go-services/core"
+	"github.com/go-services/gos-project/services/user/db"
+	"github.com/go-services/gos-project/services/user/config"
 )
 
 // this is tan example of the service main function
 func main() {
 	// get config
-	config := gos_gen.NewServiceConfig()
+	cnf := config.Get()
 	// modify config here
 
 	// create logger
-	logger := makeLogger(config)
+	logger := makeLogger(cnf)
 
 	// some initial messages
-	level.Info(logger).Log("msg", fmt.Sprintf("service `%s` started", config.Name))
-	defer level.Info(logger).Log("msg", fmt.Sprintf("service `%s` ended", config.Name))
+	level.Info(logger).Log("msg", fmt.Sprintf("service `%s` started", cnf.Name))
+	defer level.Info(logger).Log("msg", fmt.Sprintf("service `%s` ended", cnf.Name))
 
 	// create the service
 	svc := user.NewUser(logger)
 
+	db.Session()
+	defer db.Close()
 	// run the service
-	cmd.Run(svc, config, logger)
+	cmd.Run(svc, cnf, logger)
 }
 
 // creates the default logger
-func makeLogger(config core.ServiceConfig) log.Logger {
+func makeLogger(config *config.ServiceConfig) log.Logger {
 	logger := log.NewLogfmtLogger(os.Stderr)
 	logger = log.With(logger,
 		"svc", config.Name,

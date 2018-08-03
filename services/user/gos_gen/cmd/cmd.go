@@ -13,15 +13,15 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"github.com/go-services/core"
+	"github.com/go-services/gos-project/services/user/config"
 )
 
 // Run the service
-func Run(svc gos_gen.UserService, config core.ServiceConfig, logger log.Logger) {
+func Run(svc gos_gen.UserService, cnf *config.ServiceConfig, logger log.Logger) {
 	var g run.Group
 	{
 		// setup HTTP transport
-		listener, router := setupHttp(svc, config, logger)
+		listener, router := setupHttp(svc, cnf, logger)
 		g.Add(func() error {
 			return http.Serve(listener, router)
 		}, func(error) {
@@ -56,9 +56,9 @@ func Run(svc gos_gen.UserService, config core.ServiceConfig, logger log.Logger) 
 }
 
 // sets up the http transport for all the resources that have methods that use http
-func setupHttp(service gos_gen.UserService, config core.ServiceConfig, logger log.Logger) (net.Listener, *mux.Router) {
+func setupHttp(service gos_gen.UserService, cnf *config.ServiceConfig, logger log.Logger) (net.Listener, *mux.Router) {
 	router := mux.NewRouter()
-	listener, err := net.Listen("tcp", config.HTTPAddress)
+	listener, err := net.Listen("tcp", cnf.HTTPAddress)
 
 	if err != nil {
 		level.Error(logger).Log("exit", err)

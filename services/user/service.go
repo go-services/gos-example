@@ -11,7 +11,7 @@ import (
 
 // this is the service struct, it must implement the generated interface gos_gen.UserService
 // we create this structure so we can have a way to create and modify all of the resources of the service
-// @service(name="user", route="/")
+// @service(name="service", route="/")
 type user struct {
 	logger log.Logger
 }

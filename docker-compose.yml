@@ -1,0 +1,36 @@
+version: "3"
+services:
+  user:
+    build:
+      context: .
+      dockerfile: services/user/docker/Dockerfile
+    env_file:
+      -  services/user/docker/.env
+    volumes:
+      # these are the folders we want to have updated in the container when they do on the project
+      - ./apis/user:/go/src/github.com/go-apis/gos-project/apis/user
+      - ./shared:/go/src/github.com/go-apis/gos-project/shared
+      - ./clients:/go/src/github.com/go-apis/gos-project/clients
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    volumes:
+     - db_data:/var/lib/mysql
+    restart: always
+    ports:
+    - "3331:3306"
+    environment:
+     MYSQL_ROOT_PASSWORD: docker
+     MYSQL_DATABASE: docker
+     MYSQL_USER: docker
+     MYSQL_PASSWORD: docker
+  api:
+      image: quay.io/hellofresh/janus
+      ports:
+        - "8080:8080"
+      volumes:
+        - ./gateway/janus.toml:/etc/janus/janus.toml
+        - ./gateway/apis:/etc/janus/apis
+volumes:
+  db_data:

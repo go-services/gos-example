@@ -2,6 +2,7 @@ package resource
 
 import (
 	"context"
+	"strings"
 )
 
 // @resource(name="base", route="/")
@@ -23,6 +24,6 @@ func NewBase() Base {
 }
 
 func (base) Index(ctx context.Context, username string) (greeting string, err error) {
-	greeting = "Hello " + username
+	greeting = "Hello " + strings.ToUpper(username)
 	return
 }
